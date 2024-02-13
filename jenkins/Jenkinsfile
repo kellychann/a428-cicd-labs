@@ -1,14 +1,7 @@
-pipeline {
-    agent {
-        docker {
-            image 'node:lts-buster-slim'
-            args '-p 3000:3000'
-        }
-    }
-    environment {
-        CI = 'true'
-    }
-    stages {
+node {
+    docker.image('node:lts-buster-slim').run('-p 3000:3000') {
+        env.CI = 'true'
+        
         stage('Build') {
             steps {
                 sh 'npm install'
