@@ -18,9 +18,21 @@ pipeline {
         }
         stage('Manual Approval') {
             steps {
-                input message: 'Lanjutkan ke tahap Deploy?', ok: 'Proceed', parameters: [
-                    choice(choices: ['Proceed', 'Abort'])
-                ]
+                script {
+                    def userInput = input(
+                        id: 'userInput', 
+                        message: 'Lanjutkan ke tahap Deploy?', 
+                        parameters: [
+                            [$class: 'ChoiceParameter', 
+                             choiceType: 'RadioChoiceDefinition', 
+                             name: 'Proceed?', 
+                             choices: 'ok\nabort']
+                        ]
+                    )
+                    if (userInput == 'abort') {
+                        error('Eksekusi Pipeline Selesai')
+                    }
+                }
             }
         }
         stage('Deploy') { 
