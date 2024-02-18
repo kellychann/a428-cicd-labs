@@ -18,21 +18,8 @@ pipeline {
         }
         stage('Manual Approval') {
             steps {
-                script {
-                    def userInput = input(
-                        id: 'userInput', 
-                        message: 'Lanjutkan ke tahap Deploy?', 
-                        parameters: [
-                            [$class: 'ChoiceParameter', 
-                             choiceType: 'RadioChoiceDefinition', 
-                             name: 'Proceed?', 
-                             choices: 'ok\nabort']
-                        ]
-                    )
-                    if (userInput == 'abort') {
-                        error('Eksekusi Pipeline Selesai')
-                    }
-                }
+                input message: 'Lanjutkan ke tahap Deploy? (Klik "Abort" untuk mengakhiri)'
+                sh './jenkins/scripts/kill.sh' 
             }
         }
         stage('Deploy') { 
