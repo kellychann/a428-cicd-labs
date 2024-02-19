@@ -24,7 +24,7 @@ pipeline {
         stage('Deploy') { 
             steps {
                 sh './jenkins/scripts/deliver.sh' 
-                sh 'echo "Jeda 1 menit"'
+                sh 'echo "Jeda 1 menit "'
                 sh "sleep 60"
                 sh './jenkins/scripts/kill.sh' 
             }
